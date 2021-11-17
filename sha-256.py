@@ -1,4 +1,3 @@
-
 '''
 Note 1: All variables are 32 bit unsigned integers and addition is calculated modulo 2^32
 Note 2: For each round, there is one round constant k[i] and one entry in the message schedule array w[i], 0 ≤ i ≤ 63
@@ -9,11 +8,18 @@ Note 4: Big-endian convention is used when expressing the constants in this pseu
 
 credit : https://en.wikipedia.org/wiki/SHA-2
 '''
+
+# BLOCK_SIZE, DIGEST_SIZE, BITS_IN_WORD
+BLOCK_SIZE = 64
+DIGEST_SIZE = 32
+BITS_WORD = 32
+
 # Initialize hash values
-H_arr = [0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19]
+H_ARR = [0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a,
+         0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19]
 
 # Initialize array of round constants
-K_arr = [
+K_ARR = [
     0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
     0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
     0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da,
@@ -24,35 +30,168 @@ K_arr = [
     0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2
 ]
 
-# Preprocessing
-def add_padding(message):
-    '''
-    begin with the original message of length L bits
-    append a single '1' bit
-    append K '0' bits, where K is the minimum number >= 0 such that L + 1 + K + 64 is a multiple of 512
-    append L as a 64-bit big-endian integer, making the total post-processed length a multiple of 512 bits
-    such that the bits in the message are L 1 00..<K 0's>..00 <L as 64 bit integer> = k*512 total bits
-    '''
-    message_length = len(message)
-    
-    # append '1' bit
-    message += "80".decode('hex_codec')
-    
-    # create a 64-entry message schedule array w[0..63] of 32-bit
-    blocks = (message_length + 1 + 8 + (64-1)) // 64
-    req_length = blocks * 64
-    padding = req_length - message_length - 1 - 8
 
-    # append '0' padding
-    message = padding * '00'.decode('hex_codec')
-    message = ('%016X' % (message_length * 8)).decode('hex_codec')
+def rotate_right(x: int, shift: int, size: int = BITS_WORD):
+    '''
+    ROTR n(x) =(x >> n) ∨ (x << w - n)
+    '''
+    return (x >> shift) | (x << size - shift)
 
-    return
+
+def majority(x: int, y: int, z: int):
+    '''
+    Maj(x,y,z) = (x ∧ y) ⊕ (x ∧ z) ⊕ ( y ∧ z)
+    '''
+    return (x & y) ^ (x & z) ^ (y & z)
+
+
+def choose(x: int, y: int, z: int):
+    '''
+    Ch(x,y,z) = (x∧y)⊕(¬x∧z)
+    '''
+    return (x & y) ^ (~x & z)
+
+
+def sigma0(x: int):
+    '''
+    ROTR 7(x) ⊕ ROTR 18(x) ⊕ SHR 3(x)
+    '''
+    return (
+        rotate_right(x, 17) ^
+        rotate_right(x, 19) ^
+        (x >> 10)
+    )
+
+
+def sigma1(x: int):
+    '''
+    ROTR 17(x) ⊕ ROTR 19(x) ⊕ SHR 10(x)
+    '''
+    return (
+        rotate_right(x, 17) ^
+        rotate_right(x, 19) ^
+        (x >> 10)
+    )
+
+
+def capitalized_sigma0(x: int):
+    '''
+    ROTR 2(x) ⊕ ROTR 13(x) ⊕ ROTR 22(x)
+    '''
+    return (
+        rotate_right(x, 2) ^
+        rotate_right(x, 13) ^
+        rotate_right(x, 22)
+    )
+
+
+def capitalized_sigma1(x: int):
+    '''
+    ROTR 6(x) ⊕ ROTR 11(x) ⊕ ROTR 25(x)
+    '''
+    return (
+        rotate_right(x, 6) ^
+        rotate_right(x, 11) ^
+        rotate_right(x, 25)
+    )
+
+
+def hash(message: bytearray) -> bytearray:
+    '''
+    input   : bytes, bytearray, or string
+    output  : SHA-256 hash
+    '''
+    # converting message
+    if isinstance(message, str):
+        message = bytearray(message, 'ascii')
+    elif isinstance(message, bytes):
+        message = bytearray(message)
+    else:
+        raise TypeError
+
+    # Add padding
+    msg_length = len(message) * 8
+    message.append(0x80)
+
+    while ((len(message) * 8 + 64) % 512 != 0):
+        message.append(0x00)
+
+    # big endian
+    message += msg_length.to_bytes(8, 'big')
+
+    # Parsing
+    blocks = []
+    for i in range(0, len(message), 64):
+        blocks.append(message[i:i+64])
+
+    # Initial hash value
+    a = H_ARR[0]
+    b = H_ARR[1]
+    c = H_ARR[2]
+    d = H_ARR[3]
+    e = H_ARR[4]
+    f = H_ARR[5]
+    g = H_ARR[6]
+    h = H_ARR[7]
+
+    for block in blocks:
+        msg_schedule = []
+        for t in range(0, BLOCK_SIZE):
+            if (t <= 15):
+                msg_schedule.append(bytes(block[t*4:(t*4)+4]))
+            else:
+                term1 = sigma1(int.from_bytes(msg_schedule[t-2], 'big'))
+                term2 = int.from_bytes(msg_schedule[t-7], 'big')
+                term3 = sigma0(int.from_bytes(msg_schedule[t-15], 'big'))
+                term4 = int.from_bytes(msg_schedule[t-16], 'big')
+
+                # append a 4-byte byte object
+                schedule = ((term1 + term2 + term3 + term4) %
+                            2**32).to_bytes(4, 'big')
+                msg_schedule.append(schedule)
+
+    # iterate t = 0-63
+    for t in range(BLOCK_SIZE):
+        t1 = ((h + capitalized_sigma1(e) + choose(e, f, g) + K_ARR[t] +
+               int.from_bytes(msg_schedule[t], 'big')) % 2**32)
+
+        t2 = (capitalized_sigma0(a) + majority(a, b, c)) % 2**32
+
+        h = g
+        g = f
+        f = e
+        e = (d + t1) % 2**32
+        d = c
+        c = b
+        b = a
+        a = (t1 + t2) % 2**32
+
+    # Intermediate hash
+    h0 = (H_ARR[0] + a) % 2**32
+    h1 = (H_ARR[1] + b) % 2**32
+    h2 = (H_ARR[2] + c) % 2**32
+    h3 = (H_ARR[3] + d) % 2**32
+    h4 = (H_ARR[4] + e) % 2**32
+    h5 = (H_ARR[5] + f) % 2**32
+    h6 = (H_ARR[6] + g) % 2**32
+    h7 = (H_ARR[7] + h) % 2**32
+
+    # Produce final hash value in big endian
+    return (
+        (h0).to_bytes(4, 'big') +
+        (h1).to_bytes(4, 'big') +
+        (h2).to_bytes(4, 'big') +
+        (h3).to_bytes(4, 'big') +
+        (h4).to_bytes(4, 'big') +
+        (h5).to_bytes(4, 'big') +
+        (h6).to_bytes(4, 'big') +
+        (h7).to_bytes(4, 'big')
+    )
+
 
 def main():
-    tesMsg = ('ini coba add padding'.decode('hex_codec')).encode('hex_codec')
-    # msg = hex(tesMsg)
-    print(add_padding(tesMsg))
+    print(hash("ini nyoba").hex())
+
 
 if __name__ == '__main__':
     main()
