@@ -107,7 +107,7 @@ def read_eof(path):
     f = open(path, "r")
     for line in f:
         if (not signature):
-            m += (line)
+            m_text += (line)
             if line == ("*** Begin of digital signature ****\n"):
                 signature = True
         else:

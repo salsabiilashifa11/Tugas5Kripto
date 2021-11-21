@@ -134,7 +134,9 @@ class signScreen(QDialog):
             self.getKey()
             self.getOutputPath()
 
-            hashed = int.from_bytes(sha256.hash(self.message).hex().encode('utf8'))
+            encoded = int.from_bytes((self.message.encode('utf8')), "big")
+
+            hashed = int.from_bytes(sha256.hash(encoded).hex().encode('utf8'))
 
             signature = elgamal.elgamal_dss_sign(self.key[0], self.key[1], self.key[2], hashed)
 
@@ -193,7 +195,7 @@ class verifyScreen(QDialog):
             self.getMessage()
             self.getKey()
 
-            
+
 
                 
 
