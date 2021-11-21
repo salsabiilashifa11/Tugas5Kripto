@@ -10,6 +10,9 @@ credit : https://en.wikipedia.org/wiki/SHA-2
 '''
 
 # BLOCK_SIZE, DIGEST_SIZE, BITS_IN_WORD
+from math import sqrt
+
+
 BLOCK_SIZE = 64
 DIGEST_SIZE = 32
 BITS_WORD = 32
@@ -190,7 +193,8 @@ def hash(message: bytearray) -> bytearray:
 
 
 def main():
-    print(hash("ini nyoba").hex())
+    # print(int.from_bytes(hash("ini nyoba").hex().encode('utf8'), 'big'))
+    print(pow(2347, int.from_bytes(hash("ini nyoba").hex().encode('utf8'), 'big')))
 
 
 if __name__ == '__main__':
