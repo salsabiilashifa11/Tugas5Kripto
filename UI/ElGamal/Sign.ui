@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1201</width>
-    <height>793</height>
+    <width>1200</width>
+    <height>800</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,8 +21,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1201</width>
-     <height>841</height>
+     <width>1200</width>
+     <height>800</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -36,7 +36,7 @@
       <x>40</x>
       <y>30</y>
       <width>241</width>
-      <height>41</height>
+      <height>61</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -103,7 +103,7 @@ background-color: rgba(255, 255, 255, 0);
      <rect>
       <x>580</x>
       <y>110</y>
-      <width>101</width>
+      <width>121</width>
       <height>20</height>
      </rect>
     </property>
@@ -180,7 +180,7 @@ color: rgb(116, 116, 118);
      <rect>
       <x>770</x>
       <y>150</y>
-      <width>71</width>
+      <width>91</width>
       <height>31</height>
      </rect>
     </property>
@@ -518,9 +518,9 @@ color: rgb(116, 116, 118);
     <property name="geometry">
      <rect>
       <x>260</x>
-      <y>400</y>
+      <y>390</y>
       <width>171</width>
-      <height>20</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -561,7 +561,7 @@ color: rgb(116, 116, 118);</string>
      <rect>
       <x>630</x>
       <y>360</y>
-      <width>101</width>
+      <width>141</width>
       <height>20</height>
      </rect>
     </property>
@@ -625,7 +625,7 @@ background-color: rgba(255, 255, 255, 0);
      <rect>
       <x>260</x>
       <y>360</y>
-      <width>171</width>
+      <width>191</width>
       <height>20</height>
      </rect>
     </property>
