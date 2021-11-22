@@ -77,6 +77,9 @@ class signScreen(QDialog):
         self.outputPath = ""
         self.key = ""
         self.curve = ""
+        self.keyboard = False
+        self.infile = False 
+        # self.enableOutputField = False
 
         # actions
         self.fileRadio.toggled.connect(self.togglefileRadio)
@@ -107,21 +110,32 @@ class signScreen(QDialog):
                 self.messageFileButton.setEnabled(True)
                 self.fileInputMethod = "File"
                 self.inputKeyboardField.setText("")
+                self.keyboard = False
+                if self.infile == False:
+                    self.outputFileField.setReadOnly(False)
+                
         elif b.text() == "Keyboard":
             if b.isChecked():
                 self.inputKeyboardField.setReadOnly(False)
                 self.messageFileButton.setEnabled(False)
                 self.fileInputMethod = "Keyboard"
                 self.inputFileField.setText("")
+                self.keyboard = True
+                self.outputFileField.setReadOnly(False)
+                
 
     def btnInputState2(self, b):
         if b.text() == "Separate File":
             if b.isChecked():
                 self.signatureLocation = "Separate File"
+                self.infile = False
+                self.outputFileField.setReadOnly(False)
         elif b.text() == "Inside File":
             if b.isChecked():
                 self.signatureLocation = "Inside File"
-                self.outputFileField.setReadOnly(True)
+                self.infile = True
+                if self.keyboard == False:
+                    self.outputFileField.setReadOnly(True)
 
     def getMessage(self):
         if (self.fileInputMethod == "File"):
