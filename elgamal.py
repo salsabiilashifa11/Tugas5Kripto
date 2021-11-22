@@ -46,23 +46,23 @@ def elgamal_generate_key(nbits, path):
     pub = (y, g, p)
     pri = (x, p)
 
-    # elgamal_save_key(y, g, p, x, path)
+    elgamal_save_key(y, g, p, x, path)
     return (pub, pri)
 
 
 def elgamal_save_key(y, g, p, x, path):
-    pubkey = "save/elGamal/key/" + path + ".pub"
-    prikey = "save/elGamal/key/" + path + ".pri"
+    pubkey = "save/key/" + path + ".pub"
+    prikey = "save/key/" + path + ".pri"
 
     with open(pubkey, "w") as f:
-        f.write("%s\n" % y)
-        f.write("%s\n" % g)
-        f.write("%s" % p)
+        f.write("y: %s\n" % y)
+        f.write("g: %s\n" % g)
+        f.write("p: %s" % p)
     f.close()
 
     with open(prikey, "w") as r:
-        r.write("%s\n" % x)
-        r.write("%s" % p)
+        r.write("x: %s\n" % x)
+        r.write("p: %s" % p)
     r.close()
 
 
@@ -86,7 +86,7 @@ def elgamal_dss_verify(y, g, p, m, r, s):
 def save_eof(m, r, s, fname):
     with open(fname, "a") as f:
         f.write("*** Begin of digital signature ****\n")
-        f.write(m + "." + r + "." + s + "\n")
+        f.write(str(m) + "." + str(r) + "." + str(s) + "\n")
         f.write("*** End of digital signature ****\n")
     f.close()
 
@@ -94,7 +94,7 @@ def save_eof(m, r, s, fname):
 def save_nf(m, r, s, fname):
     with open(fname, "w") as f:
         f.write("*** Begin of digital signature ****\n")
-        f.write(m + "." + r + "." + s + "\n")
+        f.write(str(m) + "." + str(r) + "." + str(s) + "\n")
         f.write("*** End of digital signature ****\n")
     f.close()
 
@@ -107,9 +107,10 @@ def read_eof(path):
     f = open(path, "r")
     for line in f:
         if (not signature):
-            m_text += (line)
             if line == ("*** Begin of digital signature ****\n"):
                 signature = True
+            else:
+                m_text += (line)
         else:
             content = line.rstrip().split('.')
             r = content[1]

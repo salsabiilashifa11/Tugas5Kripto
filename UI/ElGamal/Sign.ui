@@ -140,7 +140,7 @@ color: rgb(116, 116, 118);
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLineEdit" name="xField">
+   <widget class="QLineEdit" name="XField">
     <property name="geometry">
      <rect>
       <x>470</x>
@@ -382,7 +382,7 @@ border-radius: 15px;
      <string>Back</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="pField">
+   <widget class="QLineEdit" name="PField">
     <property name="geometry">
      <rect>
       <x>470</x>
@@ -440,7 +440,7 @@ color: rgb(116, 116, 118);</string>
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLineEdit" name="gField">
+   <widget class="QLineEdit" name="GField">
     <property name="geometry">
      <rect>
       <x>470</x>

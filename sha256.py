@@ -195,8 +195,11 @@ def hash(message: bytearray) -> bytearray:
 def main():
     # print(int.from_bytes(hash("ini nyoba").hex().encode('utf8'), 'big'))
     message = 'inicoba'
-    encoded = int.from_bytes(message.encode('utf8'), 'big')
-    print(encoded)
+    encoded = str(int.from_bytes(message.encode('utf8'), 'big'))
+    byte = encoded.encode()
+    # byte = message.encode('utf8')
+    print(hash(byte).hex())
+    print(hash(message).hex())
     # print(pow(2347, int.from_bytes(hash("ini nyoba").hex().encode('utf8'), 'big')))
 
 
