@@ -154,12 +154,14 @@ class signScreen(QDialog):
                 f.write(self.message + '\n')
             f.close()
 
-        if (self.signatureLocation == "Inside File"):
-            elgamal.save_eof(signature[0], signature[1],
-                             signature[2], self.outputPath)
-        elif (self.signatureLocation == "Separate File"):
-            elgamal.save_nf(signature[0], signature[1],
-                            signature[2], self.outputPath)
+            if (self.signatureLocation == "Inside File"):
+                elgamal.save_eof(signature[0], signature[1],
+                                signature[2], self.outputMsgPath)
+                print("blunder")
+            elif (self.signatureLocation == "Separate File"):
+                elgamal.save_nf(signature[0], signature[1],
+                                signature[2], self.outputPath)
+                print("blunder2")
 
         self.Status.setText('Hash Success!')
 
