@@ -117,6 +117,7 @@ class signScreen(QDialog):
         elif b.text() == "Inside File":
             if b.isChecked():
                 self.signatureLocation = "Inside File"
+                self.outputFileField.setReadOnly(True)
 
     def getMessage(self):
         if (self.fileInputMethod == "File"):
@@ -126,6 +127,7 @@ class signScreen(QDialog):
             f.close()
         else:
             self.message = self.inputKeyboardField.text()
+        self.message = self.message.rstrip()
 
     def getKey(self):
         self.key = (
@@ -156,12 +158,17 @@ class signScreen(QDialog):
 
             if (self.signatureLocation == "Inside File"):
                 elgamal.save_eof(signature[0], signature[1],
-                                signature[2], self.outputMsgPath)
-                print("blunder")
+                                 signature[2], self.outputMsgPath)
             elif (self.signatureLocation == "Separate File"):
                 elgamal.save_nf(signature[0], signature[1],
                                 signature[2], self.outputPath)
-                print("blunder2")
+        else:
+            if (self.signatureLocation == "Inside File"):
+                elgamal.save_eof(signature[0], signature[1],
+                                 signature[2], self.inputFileField.text())
+            elif (self.signatureLocation == "Separate File"):
+                elgamal.save_nf(signature[0], signature[1],
+                                signature[2], self.outputPath)
 
         self.Status.setText('Hash Success!')
 
@@ -174,14 +181,13 @@ class verifyScreen(QDialog):
         self.message = ""
         self.outputPath = ""
         self.key = ""
-        self.curve = ""
 
         # actions
         self.SeparateFile.toggled.connect(self.toggleSeparateFile)
         self.InsideFile.toggled.connect(self.toggleInsideFile)
         self.messageFileButton.clicked.connect(self.browseInputMessage)
         self.signatureFileButton.clicked.connect(self.browseInputSignature)
-        self.goButton.clicked.connect(self.runVerify)  # generate key
+        self.goButton.clicked.connect(self.runVerify)
         self.backButton.clicked.connect(goBack)
 
     def toggleSeparateFile(self): self.btnInputState(self.SeparateFile)
@@ -235,14 +241,17 @@ class verifyScreen(QDialog):
         hashed = int.from_bytes(sha256.hash(
             self.message).hex().encode('utf8'), 'big')
 
-        verify = elgamal.elgamal_dss_verify(
-            int(self.key[0]), int(self.key[1]), int(self.key[2]), hashed, int(self.r), int(self.s))
+        if (self.r != "" and self.s != ""):
+            verify = elgamal.elgamal_dss_verify(
+                int(self.key[0]), int(self.key[1]), int(self.key[2]), hashed, int(self.r), int(self.s))
 
-        print(verify)
-        if verify:
-            self.Status.setText('Verified!')
+            print(verify)
+            if verify:
+                self.Status.setText('Verified!')
+            else:
+                self.Status.setText('Unverified!')
         else:
-            self.Status.setText('Unverified!')
+            self.Status.setText('Signature not found!')
 
 
 # main
