@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1202</width>
-    <height>821</height>
+    <width>1200</width>
+    <height>800</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,8 +21,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1201</width>
-     <height>821</height>
+     <width>1200</width>
+     <height>800</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -33,9 +33,9 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>310</x>
+      <x>100</x>
       <y>60</y>
-      <width>271</width>
+      <width>481</width>
       <height>151</height>
      </rect>
     </property>
@@ -77,7 +77,7 @@ border-radius: 25px;
      <rect>
       <x>580</x>
       <y>60</y>
-      <width>321</width>
+      <width>521</width>
       <height>151</height>
      </rect>
     </property>
@@ -97,9 +97,9 @@ font: 75 72pt &quot;Product Sans&quot;;
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>480</x>
-      <y>190</y>
-      <width>241</width>
+      <x>400</x>
+      <y>200</y>
+      <width>400</width>
       <height>20</height>
      </rect>
     </property>
@@ -121,7 +121,7 @@ color: rgb(116, 116, 118);</string>
       <x>340</x>
       <y>370</y>
       <width>141</width>
-      <height>20</height>
+      <height>26</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -142,7 +142,7 @@ color: rgb(116, 116, 118);</string>
       <x>530</x>
       <y>370</y>
       <width>141</width>
-      <height>20</height>
+      <height>26</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -221,7 +221,7 @@ border-radius: 25px;
       <x>710</x>
       <y>370</y>
       <width>141</width>
-      <height>20</height>
+      <height>26</height>
      </rect>
     </property>
     <property name="styleSheet">

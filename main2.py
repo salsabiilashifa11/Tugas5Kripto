@@ -5,6 +5,10 @@ from PyQt5.QtWidgets import QDial, QDialog, QApplication, QStackedWidget, QFileD
 import elgamal
 import sha256
 import cv2
+import os
+
+#OpenCV ada internal plugin yang gak compatible
+os.environ.pop("QT_QPA_PLATFORM_PLUGIN_PATH")
 
 # ---------------------------------UTILITIES---------------------------------
 
@@ -261,8 +265,8 @@ widget = QStackedWidget()
 home = HomeScreen()
 
 widget.addWidget(home)
-widget.setFixedWidth(1201)
-widget.setFixedHeight(821)
+widget.setFixedWidth(1200)
+widget.setFixedHeight(800)
 widget.show()
 try:
     sys.exit(app.exec_())

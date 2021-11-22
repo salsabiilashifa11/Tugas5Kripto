@@ -36,7 +36,7 @@
       <x>100</x>
       <y>30</y>
       <width>241</width>
-      <height>41</height>
+      <height>71</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -103,7 +103,7 @@ background-color: rgba(255, 255, 255, 0);
      <rect>
       <x>640</x>
       <y>110</y>
-      <width>101</width>
+      <width>131</width>
       <height>20</height>
      </rect>
     </property>
@@ -180,7 +180,7 @@ color: rgb(116, 116, 118);
      <rect>
       <x>830</x>
       <y>150</y>
-      <width>71</width>
+      <width>91</width>
       <height>31</height>
      </rect>
     </property>
@@ -203,9 +203,13 @@ border-radius: 15px;
       <height>20</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>13</pointsize>
+     </font>
+    </property>
     <property name="styleSheet">
      <string notr="true">background-color: rgba(255, 255, 255, 0);
-font: 15pt &quot;Product Sans&quot;;
 color: rgb(116, 116, 118);</string>
     </property>
     <property name="text">
@@ -387,13 +391,17 @@ border-radius: 15px;
      <rect>
       <x>320</x>
       <y>240</y>
-      <width>171</width>
+      <width>181</width>
       <height>20</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
     <property name="styleSheet">
      <string notr="true">background-color: rgba(255, 255, 255, 0);
-font: 15pt &quot;Product Sans&quot;;
 color: rgb(116, 116, 118);</string>
     </property>
     <property name="text">
@@ -429,7 +437,7 @@ color: rgb(116, 116, 118);</string>
      <rect>
       <x>640</x>
       <y>240</y>
-      <width>101</width>
+      <width>121</width>
       <height>20</height>
      </rect>
     </property>
@@ -447,9 +455,9 @@ color: rgb(96, 99, 103);
    <widget class="QRadioButton" name="inputButton_4">
     <property name="geometry">
      <rect>
-      <x>550</x>
+      <x>530</x>
       <y>240</y>
-      <width>81</width>
+      <width>101</width>
       <height>20</height>
      </rect>
     </property>
@@ -660,7 +668,7 @@ color: rgb(116, 116, 118);
    <widget class="QRadioButton" name="inputButton_5">
     <property name="geometry">
      <rect>
-      <x>740</x>
+      <x>770</x>
       <y>240</y>
       <width>101</width>
       <height>20</height>
@@ -743,7 +751,7 @@ color: rgb(116, 116, 118);</string>
      <rect>
       <x>830</x>
       <y>270</y>
-      <width>71</width>
+      <width>91</width>
       <height>31</height>
      </rect>
     </property>
