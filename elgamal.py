@@ -85,7 +85,7 @@ def elgamal_dss_verify(y, g, p, m, r, s):
 
 def save_eof(m, r, s, fname):
     with open(fname, "a") as f:
-        f.write("*** Begin of digital signature ****\n")
+        f.write("\n*** Begin of digital signature ****\n")
         f.write(str(m) + "." + str(r) + "." + str(s) + "\n")
         f.write("*** End of digital signature ****\n")
     f.close()

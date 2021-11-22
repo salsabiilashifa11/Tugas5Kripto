@@ -7,8 +7,8 @@ import sha256
 import cv2
 import os
 
-#OpenCV ada internal plugin yang gak compatible
-os.environ.pop("QT_QPA_PLATFORM_PLUGIN_PATH")
+# OpenCV ada internal plugin yang gak compatible
+# os.environ.pop("QT_QPA_PLATFORM_PLUGIN_PATH")
 
 # ---------------------------------UTILITIES---------------------------------
 
