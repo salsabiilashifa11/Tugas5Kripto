@@ -8,7 +8,8 @@ import cv2
 import os
 
 #OpenCV ada internal plugin yang gak compatible
-os.environ.pop("QT_QPA_PLATFORM_PLUGIN_PATH")
+if os.environ.get('QT_QPA_PLATFORM_PLUGIN_PATH') is not None:
+    os.environ.pop("QT_QPA_PLATFORM_PLUGIN_PATH")
 
 # ---------------------------------UTILITIES---------------------------------
 
