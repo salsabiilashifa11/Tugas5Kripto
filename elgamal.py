@@ -116,13 +116,13 @@ def read_eof(path):
             r = content[1]
             s = content[2]
             break
-    return (m_text, r, s)
+    return (m_text.rstrip(), r, s)
 
 
 def read_nf(path_m, path_rs):
     m_text = read_m_separate(path_m)
     r, s = read_rs_separate(path_rs)
-    return (m_text, r, s)
+    return (m_text.rstrip(), r, s)
 
 
 def read_m_separate(path):

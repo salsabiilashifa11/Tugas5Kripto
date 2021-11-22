@@ -136,6 +136,7 @@ class signScreen(QDialog):
 
     def getOutputPath(self):
         self.outputPath = "save/" + self.outputFileField.text() + "-signed.txt"
+        self.outputMsgPath = "save/" + self.outputFileField.text() + "-message.txt"
 
     def runSign(self):
         self.getMessage()
@@ -148,10 +149,12 @@ class signScreen(QDialog):
         signature = elgamal.elgamal_dss_sign(
             self.key[0], self.key[1], self.key[2], hashed)
 
-        if (self.signatureLocation == "Inside File"):
-            with open(self.outputPath, "w") as f:
+        if self.fileInputMethod == 'Keyboard':
+            with open(self.outputMsgPath, "w") as f:
                 f.write(self.message + '\n')
             f.close()
+
+        if (self.signatureLocation == "Inside File"):
             elgamal.save_eof(signature[0], signature[1],
                              signature[2], self.outputPath)
         elif (self.signatureLocation == "Separate File"):
